@@ -1,8 +1,10 @@
+#Imports necesarios para el gl.
 from ray import *
 from utilidades import *
 from math import *
 from vector import *
 from sphere import *
+from material import *
 
 c1 = Raytracer() #Instancia de la clase Raytracer.
 
@@ -45,23 +47,35 @@ def point(x, y, c):
         c1.framebuffer[y][x] = c
 
 def glSphere(x, y, z, r, col):
-    c1.spheres.append(Sphere(V3(x, y, z), r)) #Guardando la esfera en el array de esferas.
-    c1.colors.append(col) #Guardando el color de la esfera.
-
-def cast_ray(orig, direction): #Método para el rayo. 
+    #c1.spheres.append(Sphere(V3(x, y, z), r)) #Guardando la esfera en el array de esferas.
     
-    #s = Sphere(V3(-3, -5, -16), 1) #Creando la esfera.
+    col = Material(diffuse=col) #Creando el material.
 
-    #print(c1.spheres)
+    esfera = Sphere(V3(x, y, z), r, col) #Creando la esfera.
 
-    for sphere in c1.spheres: #Recorriendo el array de esferas.
-        sphereIntersection = sphere.ray_intersect(orig, direction) #Llamando al método para la intersección de la esfera, para validar si el rayo intersecta con la esfera.
-        #print(sphereIntersection)
-        if sphereIntersection: #Si el rayo intersecta con la esfera.
-            #Se retorna el color de la esfera.
-            return c1.colors[c1.spheres.index(sphere)]
-    else:  #Si el rayo no intersecta con la esfera.
-        return c1.color
+    c1.spheres.append(esfera) #Guardando la esfera en el array de esferas.
+    
+    print(esfera)
+    print(col)
+    
+    # c1.colors.append(rojo) #Guardando el color de la primera esfera.
+    # c1.colors.append(verde) # Guardando el color de la segunda esfera.
+
+def cast_ray(origin, direction): #Método para el rayo.
+   material = scene_intersect(origin, direction) #Revisando contra que choca el rayo.
+
+   if material:# Si hay intersección, entonces se retorna el color de la esfera.
+    return material.diffuse
+   else: #Si no hay intersección, entonces se retorna el color de fondo.
+    return c1.color
+
+def scene_intersect(orig, direction): #Método para la intersección de la escena.
+    for o in c1.spheres: #Recorriendo el array de esferas.
+       intersect = o.ray_intersect(orig, direction)
+       if intersect: # Si hay intersección, entonces se retorna el color de la esfera.
+           c1.colors = o.material
+           return c1.colors
+
 
 def finish():
     fov = int(pi/2)
@@ -77,5 +91,5 @@ def finish():
 
             c = cast_ray(origin, direction) #Llamando al método para el rayo.
         
-            point(x, y, c)
+            point(x, y, c) #Creando un punto.
     c1.write()
