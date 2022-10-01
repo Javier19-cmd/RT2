@@ -74,13 +74,15 @@ def cast_ray(origin, direction): #Método para el rayo.
 #    print(abs((material.diffuse[1] * light_intensity) / 255))
 #    print(abs((material.diffuse[0] * light_intensity) / 255))
 
-   diffuse = color(
-        abs((material.diffuse[2] * light_intensity) / 255),
-        abs((material.diffuse[1] * light_intensity) / 255),
-        abs((material.diffuse[0] * light_intensity) / 255)
-    )
+#    diffuse = color(
+#         int(abs(material.diffuse[2] * light_intensity)),
+#         int(abs(material.diffuse[1] * light_intensity)),
+#         int(abs(material.diffuse[0] * light_intensity))
+#     )
 
-   return diffuse
+   print(type(material.diffuse))
+
+   return material.diffuse * light_intensity
 
 
 def scene_intersect(orig, direction): #Método para la intersección de la escena.

@@ -1,6 +1,7 @@
 from utilidades import * #Archivo de utilidades.
 from vector import * #Archivo de vectores.
 from light import * #Archivo de luz.
+from color import * #Archivo de colores.
 
 #Clase para el raytracer.
 class Raytracer(object):
@@ -60,7 +61,7 @@ class Raytracer(object):
             #Pintando el archivo de color negro.
             for y in range(self.height):
                 for x in range(self.width):
-                    f.write(self.framebuffer[y][x])
+                    f.write(self.framebuffer[y][x].toBytes())
 
             #print("Archivo escrito")
 
