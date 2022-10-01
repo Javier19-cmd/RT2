@@ -1,7 +1,6 @@
 #Nombre: Javier Sebastián Valle Balsells
 #Carnet: 20159
 
-
 #Archivo que contiene las utilidades para el programa.
 
 

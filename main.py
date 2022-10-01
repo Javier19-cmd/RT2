@@ -8,7 +8,7 @@ def main():
     glColor(1, 0, 0)
 
     glSphere(-1.3,      0, -12, 1, color(0.1, 0.5, 0.4)) #Esfera 1.
-    glSphere(-4.3,      0, -12, 1, color(0.1, 0.2, 0.9)) #Esfera 2.
+    glSphere(1.5,      0, -6, 1, color(0.4, 0.7, 0.9)) #Esfera 2.
     
     finish()
 

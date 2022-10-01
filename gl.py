@@ -62,19 +62,42 @@ def glSphere(x, y, z, r, col):
     # c1.colors.append(verde) # Guardando el color de la segunda esfera.
 
 def cast_ray(origin, direction): #Método para el rayo.
-   material = scene_intersect(origin, direction) #Revisando contra que choca el rayo.
+   material, intersect = scene_intersect(origin, direction) #Revisando contra que choca el rayo.
+    
+   if material is None: #Si no hay material, entonces se retorna
+        return c1.color #El color de fondo.
 
-   if material:# Si hay intersección, entonces se retorna el color de la esfera.
-    return material.diffuse
-   else: #Si no hay intersección, entonces se retorna el color de fondo.
-    return c1.color
+   light_dir = (c1.light.position - intersect.point).normalice() #Dirección de la luz.
+   light_intensity = light_dir @ intersect.normal #Intensidad de la luz.
+
+#    print(abs((material.diffuse[2] * light_intensity) / 255))
+#    print(abs((material.diffuse[1] * light_intensity) / 255))
+#    print(abs((material.diffuse[0] * light_intensity) / 255))
+
+   diffuse = color(
+        abs((material.diffuse[2] * light_intensity) / 255),
+        abs((material.diffuse[1] * light_intensity) / 255),
+        abs((material.diffuse[0] * light_intensity) / 255)
+    )
+
+   return diffuse
+
 
 def scene_intersect(orig, direction): #Método para la intersección de la escena.
+    
+    zBuffer = 999999 #Z index infinito.
+    material = None #Material de la esfera.
+    intersect = None #Intersección de la esfera.
+    
     for o in c1.spheres: #Recorriendo el array de esferas.
-       intersect = o.ray_intersect(orig, direction)
-       if intersect: # Si hay intersección, entonces se retorna el color de la esfera.
-           c1.colors = o.material
-           return c1.colors
+       object_intersect = o.ray_intersect(orig, direction)
+       if object_intersect: # Si hay intersección, entonces se retorna el color de la esfera.
+           if object_intersect.distance < zBuffer: #Si la distancia es menor al zBuffer, entonces se retorna el color de la esfera.
+               zBuffer = object_intersect.distance
+               material = o.material
+               intersect = object_intersect
+
+    return material, intersect
 
 
 def finish():

@@ -1,3 +1,4 @@
+from intersect import *
 class Sphere(object): #Clase para esferas.
     def __init__(self, center, radius, material): #Recibe el centro y el radio.
         self.center = center
@@ -16,7 +17,7 @@ class Sphere(object): #Clase para esferas.
 
         if d2 > self.radius**2: #Si la distancia al cuadrado es mayor al radio al cuadrado.
             #print(d2, self.radius**2)
-            return False
+            return None
         else:
 
             thc = (self.radius**2 - d2)**0.5 #Distancia al cuadrado.
@@ -28,10 +29,16 @@ class Sphere(object): #Clase para esferas.
                 t0 = t1 #Distancia al cuadrado.
             
             if t0 < 0:  #Si la distancia al cuadrado es menor a 0.
-                return False
-            
+                return None
 
-        return True
+        impact = orig + dir * t0 #Punto de intersección.    
+        normal = (impact - self.center).normalice() #Normal de la esfera.
+
+        return Intersect(
+            distance = t0,
+            point = impact,
+            normal = normal
+        )
     
     #Método toString para imprimir la esfera.
     def __str__(self):

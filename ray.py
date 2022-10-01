@@ -1,5 +1,6 @@
 from utilidades import * #Archivo de utilidades.
-
+from vector import * #Archivo de vectores.
+from light import * #Archivo de luz.
 
 #Clase para el raytracer.
 class Raytracer(object):
@@ -20,6 +21,9 @@ class Raytracer(object):
 
     #Variable para guardar la lista de colores.
     colors = []
+
+    #Creando una luz de momento.
+    light = Light(V3(-3, -2, 0), 1)
 
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.
