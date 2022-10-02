@@ -7,8 +7,11 @@ def main():
     glClear() 
     glColor(1, 0, 0)
 
-    glSphere(-1.3,      0, -12, 1, color(100, 50, 150)) #Esfera 1.
-    glSphere(1.5,      0, -6, 1, color(200, 170, 200)) #Esfera 2.
+    #Guardando los valores del color en una variable.
+    col1 = [100, 120, 20]
+    glSphere(-1.3,      0, -12, 1, col1) #Esfera 1.
+    col2 = [100, 100, 100]
+    glSphere(1.5,      0, -6, 1, col2) #Esfera 2.
     
     finish()
 

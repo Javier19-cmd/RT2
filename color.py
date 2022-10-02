@@ -19,9 +19,11 @@ class Color:
 
         
         #Verificando que los valores de r, g, b no se salgan de los rangos.
-        self.r = min(255, max(self.r, 0))
-        self.g = min(255, max(self.g, 0))
-        self.b = min(255, max(self.b, 0))
+        r = min(255, max(r, 0))
+        g = min(255, max(g, 0))
+        b = min(255, max(b, 0))
+
+        return Color(r, g, b)
     
     def toBytes(self): #Método para convertir el color a bytes.
         return bytes([self.r, self.g, self.b])

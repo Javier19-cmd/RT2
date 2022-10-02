@@ -24,7 +24,7 @@ class Raytracer(object):
     colors = []
 
     #Creando una luz de momento.
-    light = Light(V3(-3, -2, 0), 1)
+    light = Light(V3(0, 0, 0), 1)
 
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.
@@ -61,7 +61,7 @@ class Raytracer(object):
             #Pintando el archivo de color negro.
             for y in range(self.height):
                 for x in range(self.width):
-                    f.write(self.framebuffer[y][x].toBytes())
+                    f.write(self.framebuffer[y][x])
 
             #print("Archivo escrito")
 
