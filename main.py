@@ -9,9 +9,13 @@ def main():
 
     #Guardando los valores del color en una variable.
     col1 = [100, 120, 20]
-    glSphere(-1.3,      0, -12, 1, col1) #Esfera 1.
+    albedo1 = [0.9, 0.1]
+    spec1 = 10
+    glSphere(-1.3,      0, -12, 1, col1, albedo1, spec1) #Esfera 1.
     col2 = [100, 100, 100]
-    glSphere(1.5,      0, -6, 1, col2) #Esfera 2.
+    albedo2 = [0.6, 0.2]
+    spec2 = 50
+    glSphere(1.5,      0, -6, 1, col2, albedo2, spec2) #Esfera 2.
     
     finish()
 

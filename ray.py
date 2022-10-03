@@ -12,7 +12,7 @@ class Raytracer(object):
     framebuffer = 0; 
 
     #Variable para guardar el color.
-    color = 0;
+    col = 0;
 
     #Variable para guardar el color del punto. 
     colorPunto = 0;
@@ -24,7 +24,7 @@ class Raytracer(object):
     colors = []
 
     #Creando una luz de momento.
-    light = Light(V3(0, 0, 0), 1)
+    light = Light(V3(0, 0, 0), 1, color(255, 255, 255))
 
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.

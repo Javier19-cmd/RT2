@@ -34,11 +34,11 @@ def glClearColor(r, g, b): #Función para el color de fondo.
     
     cols = color(r, g, b) #Creando el color.
 
-    c1.color =  cols.toBytes() #Se le asigna el color.
+    c1.col =  cols.toBytes() #Se le asigna el color.
 
 def glClear(): #Función para limpiar la pantalla.
     c1.framebuffer = [
-            [c1.color for x in range(c1.width)] 
+            [c1.col for x in range(c1.width)] 
             for y in range(c1.height)
         ] #Se crea el framebuffer.
 
@@ -53,15 +53,15 @@ def point(x, y, c):
     if x < c1.width and y < c1.height and x >= 0 and y >= 0:
         c1.framebuffer[y][x] = c
 
-def glSphere(x, y, z, r, col):
+def glSphere(x, y, z, r, col, albedo, spec):
     #c1.spheres.append(Sphere(V3(x, y, z), r)) #Guardando la esfera en el array de esferas.
 
 
     cols = color(col[0], col[1], col[2]) #Creando el color.
     
-    colors = Material(diffuse=cols.toBytes()) #Creando el material.
+    mat = Material(diffuse=cols.toBytes(), albedo=albedo, spec=spec) #Creando el material.
 
-    esfera = Sphere(V3(x, y, z), r, colors) #Creando la esfera.
+    esfera = Sphere(V3(x, y, z), r, mat) #Creando la esfera.
 
     c1.spheres.append(esfera) #Guardando la esfera en el array de esferas.
 
@@ -75,29 +75,42 @@ def cast_ray(origin, direction): #Método para el rayo.
    material, intersect = scene_intersect(origin, direction) #Revisando contra que choca el rayo.
     
    if material is None: #Si no hay material, entonces se retorna
-        return c1.color #El color de fondo.
+        return c1.col #El color de fondo.
 
    light_dir = (c1.light.position - intersect.point).normalice() #Dirección de la luz.
-   light_intensity = light_dir @ intersect.normal #Intensidad de la luz.
-
-
+   diffuse_intensity = light_dir @ intersect.normal #Intensidad de la luz.
    
    #Guardando el material como un vector 3.
-   diffuses = V3(
+   diffuses = color(
         c1.colors[0][0],
         c1.colors[0][1],
         c1.colors[0][2]
     )
 
     #Multiplicando el material por la intensidad de la luz.
-   diffuse = diffuses * light_intensity
+   #Diffuse.
+   diffuse = diffuses * diffuse_intensity * material.albedo[0]
+
+   #print("Diffuse calculado: ", diffuse)
+   #Componente especular.
+   #print("Tipo de la dirección de la luz y de la normal de la intersección: ", type(light_dir), type(intersect.normal))
+
+   light_reflection = reflect(light_dir, intersect.normal)
+   reflection_intensity = max(0, light_reflection @ direction)
+   specular_intensity = reflection_intensity ** material.spec
+   specular = c1.light.c * specular_intensity * material.albedo[1]
+
+   #print("Tipo del specular", type(specular))
+   #print("Tipo del diffuse: ", type(diffuse))
+
+   diffuse = diffuse + specular #Sumando el diffuse y el specular.
    
 
    #Conviertiendo el vector 3 a color.
    diffuse = color(
-        abs(int(diffuse.x)),
-        abs(int(diffuse.y)),
-        abs(int(diffuse.z))
+        abs(int(diffuse.b)),
+        abs(int(diffuse.g)),
+        abs(int(diffuse.r))
     )
    
    #print("Diffuse en cast_ray", diffuse)
@@ -125,6 +138,10 @@ def scene_intersect(orig, direction): #Método para la intersección de la escen
                
     return material, intersect
 
+
+#Función que sirve para reflexionar el rayo.
+def reflect(i, n):
+    return (i - n * (i @ n) * 2).normalice()
 
 def finish():
     fov = int(pi/2)

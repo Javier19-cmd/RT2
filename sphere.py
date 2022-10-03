@@ -1,9 +1,9 @@
 from intersect import *
-class Sphere(object): #Clase para esferas.
+class Sphere: #Clase para esferas.
     def __init__(self, center, radius, material): #Recibe el centro y el radio.
         self.center = center
         self.radius = radius
-        self.material = material 
+        self.material = material
     
     def ray_intersect(self, orig, dir): #Recibe el origen y la dirección del rayo.
         L = self.center - orig #Vector L.
