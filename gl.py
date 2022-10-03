@@ -32,7 +32,7 @@ def glCreateWindow(width, height): #Función para crear la ventana.
 
 def glClearColor(r, g, b): #Función para el color de fondo.
     
-    cols = Color(r, g, b) #Creando el color.
+    cols = color(r, g, b) #Creando el color.
 
     c1.color =  cols.toBytes() #Se le asigna el color.
 
@@ -44,7 +44,7 @@ def glClear(): #Función para limpiar la pantalla.
 
 def glColor(r, g, b): #Función para el color de la figura.
 
-    cols = Color(r, g, b) #Creando el color.
+    cols = color(r, g, b) #Creando el color.
 
     c1.colorPunto = cols.toBytes() #Se le asigna el color.
 
@@ -56,7 +56,8 @@ def point(x, y, c):
 def glSphere(x, y, z, r, col):
     #c1.spheres.append(Sphere(V3(x, y, z), r)) #Guardando la esfera en el array de esferas.
 
-    cols = Color(col[0], col[1], col[2]) #Creando el color.
+
+    cols = color(col[0], col[1], col[2]) #Creando el color.
     
     colors = Material(diffuse=cols.toBytes()) #Creando el material.
 
@@ -79,15 +80,6 @@ def cast_ray(origin, direction): #Método para el rayo.
    light_dir = (c1.light.position - intersect.point).normalice() #Dirección de la luz.
    light_intensity = light_dir @ intersect.normal #Intensidad de la luz.
 
-#    print(abs((material.diffuse[2] * light_intensity) / 255))
-#    print(abs((material.diffuse[1] * light_intensity) / 255))
-#    print(abs((material.diffuse[0] * light_intensity) / 255))
-
-#    diffuse = color(
-#         int(abs(material.diffuse[2] * light_intensity)),
-#         int(abs(material.diffuse[1] * light_intensity)),
-#         int(abs(material.diffuse[0] * light_intensity))
-#     )
 
    
    #Guardando el material como un vector 3.
@@ -100,12 +92,15 @@ def cast_ray(origin, direction): #Método para el rayo.
     #Multiplicando el material por la intensidad de la luz.
    diffuse = diffuses * light_intensity
    
+
    #Conviertiendo el vector 3 a color.
-   diffuse = Color(
+   diffuse = color(
         abs(int(diffuse.x)),
         abs(int(diffuse.y)),
         abs(int(diffuse.z))
     )
+   
+   #print("Diffuse en cast_ray", diffuse)
 
    return diffuse.toBytes() #Retornando el color.
 
@@ -117,14 +112,17 @@ def scene_intersect(orig, direction): #Método para la intersección de la escen
     intersect = None #Intersección de la esfera.
     
     for o in c1.spheres: #Recorriendo el array de esferas.
+       #print("1", o.material.diffuse)
        object_intersect = o.ray_intersect(orig, direction)
        if object_intersect: # Si hay intersección, entonces se retorna el color de la esfera.
            if object_intersect.distance < zBuffer: #Si la distancia es menor al zBuffer, entonces se retorna el color de la esfera.
                zBuffer = object_intersect.distance
+               #Obteniendo el material de la esfera.
+               #print("2", o.material.diffuse)
                material = o.material
-               #print("Material: ", material)
+               #print("3", o.material.diffuse)
                intersect = object_intersect
-
+               
     return material, intersect
 
 
