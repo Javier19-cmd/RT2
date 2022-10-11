@@ -1,6 +1,4 @@
 from utilidades import * #Archivo de utilidades.
-
-
 #Clase para el raytracer.
 class Raytracer(object):
     #Ancho y alto de la imagen.
@@ -9,8 +7,8 @@ class Raytracer(object):
     #Variable para el framebuffer.
     framebuffer = 0 
 
-    #Variable para guardar el color.
-    color = 0
+    #Variable para guardar el color del fondo.
+    color_fondo = 0
 
     #Variable para guardar el color del punto. 
     colorPunto = 0
@@ -20,6 +18,9 @@ class Raytracer(object):
 
     #Variable para guardar la lista de colores.
     colors = []
+
+    #Variable para guardar la luz.
+    light = None
 
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.

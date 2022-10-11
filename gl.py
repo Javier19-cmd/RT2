@@ -1,9 +1,11 @@
+from code import interact
 from ray import *
 from utilidades import *
 from math import *
 from vector import *
 from sphere import *
 from material import *
+from light import *
 
 c1 = Raytracer() #Instancia de la clase Raytracer.
 
@@ -29,11 +31,11 @@ def glCreateWindow(width, height): #Función para crear la ventana.
      #   print("Se ingresó una letra en vez de número.")
 
 def glClearColor(r, g, b): #Función para el color de fondo.
-    c1.color = color(r, g, b); #Se le asigna el color.
+    c1.color_fondo = color(r, g, b); #Se le asigna el color.
 
 def glClear(): #Función para limpiar la pantalla.
     c1.framebuffer = [
-            [c1.color for x in range(c1.width)] 
+            [c1.color_fondo for x in range(c1.width)] 
             for y in range(c1.height)
         ] #Se crea el framebuffer.
 
@@ -54,27 +56,52 @@ def glSphere(): #Método para crear las esferas.
     rojo = Material(diffuse = color(255, 0, 0))
     amarillo = Material(diffuse = color(255, 255, 0))
 
+    #Creando esferas.
     c1.spheres = [
-        Sphere(V3(1, 0,-12), 0.3, rojo),
-        Sphere(V3(1, 1.5,-12), 0.5, amarillo),
+        Sphere(V3(1, 0,-12), 2, rojo),
+        Sphere(V3(1.5, 0,-10), 2, amarillo),
     ]
 
-def cast_ray(orig, direction): #Método para el rayo. 
-    
-    material = scene_intersect(orig, direction) #Llamando a la función para la intersección.
+    c1.light = Light(V3(-3, -2, 0).normalice(), 1) #Creando la luz.
 
-    if material: #Si hay intersección, entonces se regresa el color rojo. 
-        return material.diffuse
-    else: #Si no hay intersección, entonces se regresa el color de fondo.
-        return c1.color
+def cast_ray(orig, direction): #Método para el rayo.
+    #Revisa contra que chocó y en base a eso regresa un material.
+    
+    material, intersect = scene_intersect(orig, direction) #Llamando a la función para la intersección.
+
+    if material is None: #Si no hay material, entonces se regresa el color de fondo.
+        return c1.color_fondo
+
+    light_dir = (c1.light.position - intersect.point).normalice() #Llamando al método para la luz.
+
+    intensity = light_dir @ intersect.normal #Calculando la intensidad de la luz.
+    
+    diffuse = color(
+        abs(int(material.diffuse[2] * intensity)),
+        abs(int(material.diffuse[1] * intensity)),
+        abs(int(material.diffuse[0] * intensity))
+    )
+
+    return diffuse
     
 #Función para la intersección.
 def scene_intersect(orig, direction):
+    #Revisa todos los objetos de la escena y regresa el material del objeto con el que chocó.
+    zBuffer = 999999 #Se crea el zBuffer. 
+    material = None #Se crea el material.
+    intersect = None #Se crea la intersección.
+
     for o in c1.spheres: #Recorriendo el array de esferas.
-        intersect = o.ray_intersect(orig, direction) #Llamando al método para el rayo.
+        object_intersect = o.ray_intersect(orig, direction) #Llamando al método para el rayo.
         
-        if intersect: #Si hay intersección, entonces se regresa el color rojo.
-            return o.material #Regresando el color de la esfera.
+        if object_intersect: #Si hay intersección, entonces se regresa el material.
+            if object_intersect.distance < zBuffer:
+                #Se actualiza el zBuffer y se regresa el material actualizado.
+                zBuffer = object_intersect.distance
+                material = o.material
+                intersect = object_intersect
+    
+    return material, intersect #Regresando el color de la esfera.
 
 
 def finish():
@@ -91,5 +118,5 @@ def finish():
 
             c = cast_ray(origin, direction) #Llamando al método para el rayo.
         
-            point(x, y, c)
+            point(x, y, c) #Pintando un punto con el color que se recibe después del cast_ray.
     c1.write()

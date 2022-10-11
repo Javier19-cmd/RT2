@@ -4,7 +4,7 @@ from material import * #Archivo de material.
 from ray import * #Archivo de rayo.
 
 def main(): 
-    glCreateWindow(1024, 1024)  
+    glCreateWindow(500, 500)  
     glClearColor(255, 255, 255) 
     glClear() 
     #Creando array para las esferas.
