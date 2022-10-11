@@ -6,6 +6,7 @@ from vector import *
 from sphere import *
 from material import *
 from light import *
+from Color import *
 
 c1 = Raytracer() #Instancia de la clase Raytracer.
 
@@ -53,16 +54,16 @@ def glSphere(): #Método para crear las esferas.
     #c1.colors.append(col) #Guardando el color de la esfera.
     
     #Crenado el material de las esferas.
-    rojo = Material(diffuse = color(255, 0, 0))
-    amarillo = Material(diffuse = color(255, 255, 0))
+    rojo = Material(diffuse = Color(255, 0, 0))
+    amarillo = Material(diffuse = Color(255, 255, 0))
 
     #Creando esferas.
     c1.spheres = [
-        Sphere(V3(1, 0,-12), 2, rojo),
-        Sphere(V3(1.5, 0,-10), 2, amarillo),
+        Sphere(V3(-3, 0,-12), 2, rojo),
+        Sphere(V3(2, 0,-10), 2, amarillo),
     ]
 
-    c1.light = Light(V3(-3, -2, 0).normalice(), 1) #Creando la luz.
+    c1.light = Light(V3(0, 0, 0).normalice(), 1) #Creando la luz.
 
 def cast_ray(orig, direction): #Método para el rayo.
     #Revisa contra que chocó y en base a eso regresa un material.
@@ -76,13 +77,14 @@ def cast_ray(orig, direction): #Método para el rayo.
 
     intensity = light_dir @ intersect.normal #Calculando la intensidad de la luz.
     
-    diffuse = color(
-        abs(int(material.diffuse[2] * intensity)),
-        abs(int(material.diffuse[1] * intensity)),
-        abs(int(material.diffuse[0] * intensity))
-    )
+    r = abs(material.diffuse.r * intensity) #Calculando el color de la esfera.
+    g = abs(material.diffuse.g * intensity)
+    b = abs(material.diffuse.b * intensity)
+    
 
-    return diffuse
+    #print(intensity * material.diffuse)
+
+    return Color(r, g, b).toBytes() #Regresando el color de la esfera.
     
 #Función para la intersección.
 def scene_intersect(orig, direction):
