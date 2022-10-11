@@ -45,12 +45,18 @@ def point(x, y, c):
     if x < c1.width and y < c1.height and x >= 0 and y >= 0:
         c1.framebuffer[y][x] = c
 
-def glSphere(x, y, z, r, col):
+def glSphere(): #Método para crear las esferas.
+
     #c1.spheres.append(Sphere(V3(x, y, z), r, col)) #Guardando la esfera en el array de esferas.
     #c1.colors.append(col) #Guardando el color de la esfera.
+    
+    #Crenado el material de las esferas.
+    rojo = Material(diffuse = color(255, 0, 0))
+    amarillo = Material(diffuse = color(255, 255, 0))
 
     c1.spheres = [
-        Sphere(V3(x, y, z), r, col)
+        Sphere(V3(1, 0,-12), 0.3, rojo),
+        Sphere(V3(1, 1.5,-12), 0.5, amarillo),
     ]
 
 def cast_ray(orig, direction): #Método para el rayo. 
