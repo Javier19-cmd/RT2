@@ -4,16 +4,16 @@ from utilidades import * #Archivo de utilidades.
 #Clase para el raytracer.
 class Raytracer(object):
     #Ancho y alto de la imagen.
-    width  = 0; 
-    height = 0;
+    width  = 0 
+    height = 0
     #Variable para el framebuffer.
-    framebuffer = 0; 
+    framebuffer = 0 
 
     #Variable para guardar el color.
-    color = 0;
+    color = 0
 
     #Variable para guardar el color del punto. 
-    colorPunto = 0;
+    colorPunto = 0
 
     #Variable para guardar la matriz de esferas.
     spheres = []
