@@ -6,7 +6,7 @@ from vector import *
 from sphere import *
 from material import *
 from light import *
-from Color import *
+from color import *
 
 c1 = Raytracer() #Instancia de la clase Raytracer.
 
@@ -32,7 +32,7 @@ def glCreateWindow(width, height): #Función para crear la ventana.
      #   print("Se ingresó una letra en vez de número.")
 
 def glClearColor(r, g, b): #Función para el color de fondo.
-    c1.color_fondo = color(r, g, b); #Se le asigna el color.
+    c1.color_fondo = color(r, g, b).toBytes() #Se le asigna el color.
 
 def glClear(): #Función para limpiar la pantalla.
     c1.framebuffer = [
@@ -41,7 +41,7 @@ def glClear(): #Función para limpiar la pantalla.
         ] #Se crea el framebuffer.
 
 def glColor(r, g, b): #Función para el color de la figura.
-    c1.colorPunto = color(r, g, b); #Se le asigna el color.
+    c1.colorPunto = color(r, g, b).toBytes() #Se le asigna el color.
 
 #Defininiendo el point.
 def point(x, y, c): 
@@ -54,16 +54,16 @@ def glSphere(): #Método para crear las esferas.
     #c1.colors.append(col) #Guardando el color de la esfera.
     
     #Crenado el material de las esferas.
-    rojo = Material(diffuse = Color(255, 0, 0))
-    amarillo = Material(diffuse = Color(255, 255, 0))
+    rubber = Material(diffuse=color(255, 100, 240), albedo=[0.9, 0.1], spec=10)
+    ivory = Material(diffuse=color(255, 165, 210), albedo=[0.6, 0.3], spec=50)
 
     #Creando esferas.
     c1.spheres = [
-        Sphere(V3(-3, 0,-12), 2, rojo),
-        Sphere(V3(2, 0,-10), 2, amarillo),
+        Sphere(V3(-3, 0,-12), 2, rubber),
+        Sphere(V3(2, 0,-12), 2, ivory),
     ]
 
-    c1.light = Light(V3(0, 0, 0).normalice(), 1) #Creando la luz.
+    c1.light = Light(V3(-20, 20, 20), 1.5, color(255, 255, 255)) #Creando la luz.
 
 def cast_ray(orig, direction): #Método para el rayo.
     #Revisa contra que chocó y en base a eso regresa un material.
@@ -75,17 +75,37 @@ def cast_ray(orig, direction): #Método para el rayo.
 
     light_dir = (c1.light.position - intersect.point).normalice() #Llamando al método para la luz.
 
-    intensity = light_dir @ intersect.normal #Calculando la intensidad de la luz.
+    diffuse_intensity = light_dir @ intersect.normal #Calculando la intensidad de la luz.
     
-    r = abs(material.diffuse.r * intensity) #Calculando el color de la esfera.
-    g = abs(material.diffuse.g * intensity)
-    b = abs(material.diffuse.b * intensity)
+    #Calculando el color de la esfera.
     
+    #print(material.diffuse)
+    #print(diffuse_intensity)
+    #print(material.albedo[0])
 
-    #print(intensity * material.diffuse)
+    diffuse = material.diffuse * diffuse_intensity * material.albedo[0] #Calculando la reflexión difusa.
+    #print("Diffuse: ", diffuse)
 
-    return Color(r, g, b).toBytes() #Regresando el color de la esfera.
-    
+    #Componente especular.
+    light_reflection = reflect(light_dir, intersect.normal) #Calculando la reflexión.
+    reflection_intensity = max(0, light_reflection @ direction) #Calculando la intensidad de la reflexión.
+    specular_intensity =  c1.light.intensity * reflection_intensity ** material.spec #Calculando la intensidad de la luz.
+    specular = c1.light.c * specular_intensity * material.albedo[1] #Calculando la reflexión especular.
+
+    #print("Especular: ", specular)
+
+    #print(diffuse + specular)
+
+    # print(light_reflection)
+    # print(reflection_intensity)
+    # print(specular_intensity)
+
+    return (diffuse + specular).toBytes() #Regresando el color de la esfera.
+
+#Método para calcular la reflexión.
+def reflect(I, N):
+    return (I - N * 2 * (N @ I)).normalice()
+
 #Función para la intersección.
 def scene_intersect(orig, direction):
     #Revisa todos los objetos de la escena y regresa el material del objeto con el que chocó.

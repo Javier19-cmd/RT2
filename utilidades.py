@@ -26,6 +26,6 @@ def dword(d): #Double word.
     #Ocupa 4 bytes. El l es para un num de 4 bytes.
     return struct.pack("=l", d)
     
-def color(r, g, b): #Función que crea el color.
-    #3 bytes. Retorna el color en bytes.
-    return bytes([int(b), int(g), int(r)])
+# def color(r, g, b): #Función que crea el color.
+#     #3 bytes. Retorna el color en bytes.
+#     return bytes([int(b), int(g), int(r)])

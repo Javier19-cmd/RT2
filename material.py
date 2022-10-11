@@ -1,7 +1,6 @@
 #Clase material.
 class Material:
-    def __init__(self, diffuse): #Constructor de la clase.
+    def __init__(self, diffuse, albedo, spec): #Constructor de la clase.
         self.diffuse = diffuse #Esto guarda un color.
-
-    def __repr__(self):
-        return f"Material({self.diffuse}, {self.albedo}, {self.spec})"
+        self.albedo = albedo #Esto el albedo del material.
+        self.spec = spec #Esto guarda el especular del material.
