@@ -38,5 +38,5 @@ class Sphere(object): #Clase para esferas.
         return Intersect(
             distance = t0,
             point = impact,
-            normal = normal
+            normal = normal,
         )

@@ -63,7 +63,7 @@ def glSphere(): #Método para crear las esferas.
         Sphere(V3(2, 0,-12), 2, ivory),
     ]
 
-    c1.light = Light(V3(-20, 20, 20), 1.5, color(255, 255, 255)) #Creando la luz.
+    c1.light = Light(V3(2, 2, 2), 1.5, color(255, 255, 255)) #Creando la luz.
 
 def cast_ray(orig, direction): #Método para el rayo.
     #Revisa contra que chocó y en base a eso regresa un material.
@@ -99,8 +99,9 @@ def cast_ray(orig, direction): #Método para el rayo.
     # print(light_reflection)
     # print(reflection_intensity)
     # print(specular_intensity)
-
-    return (diffuse + specular).toBytes() #Regresando el color de la esfera.
+    #return (diffuse + specular).toBytes()
+    
+    return (diffuse).toBytes() #Regresando el color de la esfera.
 
 #Método para calcular la reflexión.
 def reflect(I, N):
