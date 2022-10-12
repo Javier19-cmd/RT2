@@ -56,7 +56,7 @@ def glSphere(): #Método para crear las esferas.
     
     #Crenado el material de las esferas que tienen los osos en medio.
     al = Material(diffuse=color(128, 128, 128), albedo=[0.61, 0.25], spec=10) #Aluminio. 
-    al2 = Material(diffuse=color(0, 0, 255), albedo=[0.61, 0.25], spec=10) #Aluminio.
+    al2 = Material(diffuse=color(255, 0, 0), albedo=[0.61, 0.25], spec=10) #Aluminio.
     sil = Material(diffuse=color(0, 128, 0), albedo=[0.6, 0.3], spec=50) #Silicón.
 
     #Colores para los osos.
@@ -82,7 +82,7 @@ def glSphere(): #Método para crear las esferas.
 
         #Esferas de aluminio.
         Sphere(V3(-3, -2.2,-12), 0.8, al),
-        Sphere(V3(2, -2.1,-12), 0.8, al2),
+        Sphere(V3(2, -2.2,-12), 0.8, al2),
 
         #Bracitos.
         Sphere(V3(-3.9, -2.7,-12), 0.3, brown),
@@ -90,6 +90,13 @@ def glSphere(): #Método para crear las esferas.
 
         Sphere(V3(1.1, -2.7,-12), 0.3, white),
         Sphere(V3(2.9, -2.7,-12), 0.3, white),
+
+        #Piernas.
+        Sphere(V3(-3.9, -1.6,-12), 0.3, brown),
+        Sphere(V3(-2.1, -1.6,-12), 0.3, brown),
+
+        Sphere(V3(1.1, -1.6,-12), 0.3, white),
+        Sphere(V3(2.9, -1.6,-12), 0.3, white),
 
     ]
 
