@@ -5,7 +5,7 @@ from ray import * #Archivo de rayo.
 
 def main(): 
     glCreateWindow(500, 500)  
-    glClearColor(255, 255, 255) 
+    glClearColor(10, 20, 150) 
     glClear() 
     #Creando array para las esferas.
     glColor(255, 0, 0)
@@ -13,6 +13,7 @@ def main():
     
     #Creando esferas.
     glSphere() #Esfera 3 color azul.
+    #glPlane() #Plano.
 
     finish()
 

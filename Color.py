@@ -24,6 +24,8 @@ class color(object):
         g = min(255, max(g, 0))
         b = min(255, max(b, 0))
 
+        #print("Color: ", color(r, g, b))
+
         return color(r, g, b)
 
     def __add__(self, other): #Multiplicación.
@@ -33,18 +35,20 @@ class color(object):
         b = self.b
         
         if type(other) == int or type(other) == float: #Si el otro es un entero o un flotante.
-            r = other
-            g = other
-            b = other
+            r += other
+            g += other
+            b += other
             
         else: #Si no.             
-            r = other.r
-            g = other.g
-            b = other.b
+            r += other.r
+            g += other.g
+            b += other.b
 
         r = min(255, max(r, 0))
         g = min(255, max(g, 0))
         b = min(255, max(b, 0))
+
+        #print("Color: ", color(r, g, b))
 
         return color(r, g, b)
     

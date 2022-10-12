@@ -16,6 +16,9 @@ class Raytracer(object):
     #Variable para guardar la matriz de esferas.
     spheres = []
 
+    #Variable para guardar la matriz de planos.
+    planes = []
+
     #Variable para guardar la lista de colores.
     colors = []
 

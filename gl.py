@@ -7,6 +7,7 @@ from sphere import *
 from material import *
 from light import *
 from color import *
+from plane import *
 
 c1 = Raytracer() #Instancia de la clase Raytracer.
 
@@ -54,8 +55,8 @@ def glSphere(): #Método para crear las esferas.
     #c1.colors.append(col) #Guardando el color de la esfera.
     
     #Crenado el material de las esferas.
-    rubber = Material(diffuse=color(255, 100, 240), albedo=[0.9, 0.1], spec=10)
-    ivory = Material(diffuse=color(255, 165, 210), albedo=[0.6, 0.3], spec=50)
+    rubber = Material(diffuse=color(120, 100, 240), albedo=[0.9, 0.1], spec=10)
+    ivory = Material(diffuse=color(255, 165, 210), albedo=[0.6, 0.4], spec=50)
 
     #Creando esferas.
     c1.spheres = [
@@ -64,6 +65,13 @@ def glSphere(): #Método para crear las esferas.
     ]
 
     c1.light = Light(V3(2, 2, 2), 1.5, color(255, 255, 255)) #Creando la luz.
+
+def glPlane(): #Método para crear el plano.
+    c1.planes = [
+        Plane(V3(0, 5, 0), 2, 2, Material(diffuse=color(255, 10, 55), albedo=[0.5, 0.1], spec=10))
+    ]
+
+    c1.light = Light(V3(2, 2, 2), 1.5, color(255, 255, 255))
 
 def cast_ray(orig, direction): #Método para el rayo.
     #Revisa contra que chocó y en base a eso regresa un material.
@@ -79,9 +87,9 @@ def cast_ray(orig, direction): #Método para el rayo.
     
     #Calculando el color de la esfera.
     
-    #print(material.diffuse)
-    #print(diffuse_intensity)
-    #print(material.albedo[0])
+    # print(material.diffuse)
+    # print(diffuse_intensity)
+    # print(material.albedo[0])
 
     diffuse = material.diffuse * diffuse_intensity * material.albedo[0] #Calculando la reflexión difusa.
     #print("Diffuse: ", diffuse)
