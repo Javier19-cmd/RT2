@@ -54,17 +54,46 @@ def glSphere(): #Método para crear las esferas.
     #c1.spheres.append(Sphere(V3(x, y, z), r, col)) #Guardando la esfera en el array de esferas.
     #c1.colors.append(col) #Guardando el color de la esfera.
     
-    #Crenado el material de las esferas.
-    rubber = Material(diffuse=color(120, 100, 240), albedo=[0.9, 0.1], spec=10)
-    ivory = Material(diffuse=color(255, 165, 210), albedo=[0.6, 0.4], spec=50)
+    #Crenado el material de las esferas que tienen los osos en medio.
+    al = Material(diffuse=color(128, 128, 128), albedo=[0.61, 0.25], spec=10) #Aluminio. 
+    al2 = Material(diffuse=color(0, 0, 255), albedo=[0.61, 0.25], spec=10) #Aluminio.
+    sil = Material(diffuse=color(0, 128, 0), albedo=[0.6, 0.3], spec=50) #Silicón.
+
+    #Colores para los osos.
+    brown = Material(diffuse=color(139, 69, 19), albedo=[1, 0], spec=0) #Marrón.
+    white = Material(diffuse=color(255, 250, 250), albedo=[1, 0], spec=0) #Blanco.
 
     #Creando esferas.
     c1.spheres = [
-        Sphere(V3(-3, 0,-12), 2, rubber),
-        Sphere(V3(2, 0,-12), 2, ivory),
+        #Cabezas
+        Sphere(V3(-3, -4,-12), 1, brown), 
+        Sphere(V3(2, -4,-12), 1, white),
+
+        #Orejas
+        Sphere(V3(-3.7, -5,-12), 0.3, brown),
+        Sphere(V3(-2.3, -5,-12), 0.3, brown),
+
+        Sphere(V3(2.7, -5,-12), 0.3, white),
+        Sphere(V3(1.4, -5,-12), 0.3, white),
+
+        # #Bocas.
+        # Sphere(V3(-4, -3.5,-12), 0.3, brown),
+        # Sphere(V3(4, -3.5,-12), 0.3, white),
+
+        #Esferas de aluminio.
+        Sphere(V3(-3, -2.2,-12), 0.8, al),
+        Sphere(V3(2, -2.1,-12), 0.8, al2),
+
+        #Bracitos.
+        Sphere(V3(-3.9, -2.7,-12), 0.3, brown),
+        Sphere(V3(-2.1, -2.7,-12), 0.3, brown),
+
+        Sphere(V3(1.1, -2.7,-12), 0.3, white),
+        Sphere(V3(2.9, -2.7,-12), 0.3, white),
+
     ]
 
-    c1.light = Light(V3(2, 2, 2), 1.5, color(255, 255, 255)) #Creando la luz.
+    c1.light = Light(V3(0, 20, 10), 3, color(255, 255, 255)) #Creando la luz.
 
 def glPlane(): #Método para crear el plano.
     c1.planes = [
@@ -97,7 +126,7 @@ def cast_ray(orig, direction): #Método para el rayo.
     #Componente especular.
     light_reflection = reflect(light_dir, intersect.normal) #Calculando la reflexión.
     reflection_intensity = max(0, light_reflection @ direction) #Calculando la intensidad de la reflexión.
-    specular_intensity =  c1.light.intensity * reflection_intensity ** material.spec #Calculando la intensidad de la luz.
+    specular_intensity =  (c1.light.intensity * reflection_intensity) ** material.spec #Calculando la intensidad de la luz.
     specular = c1.light.c * specular_intensity * material.albedo[1] #Calculando la reflexión especular.
 
     #print("Especular: ", specular)
@@ -107,13 +136,13 @@ def cast_ray(orig, direction): #Método para el rayo.
     # print(light_reflection)
     # print(reflection_intensity)
     # print(specular_intensity)
-    #return (diffuse + specular).toBytes()
+    return (diffuse + specular).toBytes()
     
-    return (diffuse).toBytes() #Regresando el color de la esfera.
+    #return (diffuse).toBytes() #Regresando el color de la esfera.
 
 #Método para calcular la reflexión.
 def reflect(I, N):
-    return (I - N * 2 * (N @ I)).normalice()
+    return (I - (N * 2 * (N @ I))).normalice()
 
 #Función para la intersección.
 def scene_intersect(orig, direction):

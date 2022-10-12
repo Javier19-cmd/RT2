@@ -31,7 +31,7 @@ class Sphere(object): #Clase para esferas.
         if t0 < 0:  #Si la distancia al cuadrado es menor a 0.
             return None
 
-        impact = orig + dir * t0 #Impacto. 
+        impact = orig + (dir * t0) #Impacto. 
         normal = (impact - self.center).normalice() #Normal. 
 
         #Regresando la distancia.
