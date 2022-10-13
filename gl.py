@@ -57,11 +57,12 @@ def glSphere(): #Método para crear las esferas.
     #Crenado el material de las esferas que tienen los osos en medio.
     al = Material(diffuse=color(128, 128, 128), albedo=[0.61, 0.25], spec=10) #Aluminio. 
     al2 = Material(diffuse=color(255, 0, 0), albedo=[0.61, 0.25], spec=10) #Aluminio.
+    
     sil = Material(diffuse=color(0, 128, 0), albedo=[0.6, 0.3], spec=50) #Silicón.
 
     #Colores para los osos.
-    brown = Material(diffuse=color(139, 69, 19), albedo=[1, 0], spec=0) #Marrón.
-    white = Material(diffuse=color(255, 250, 250), albedo=[1, 0], spec=0) #Blanco.
+    brown = Material(diffuse=color(139, 69, 19), albedo=[1, 0], spec=5) #Marrón.
+    white = Material(diffuse=color(255, 250, 250), albedo=[1, 0], spec=5) #Blanco.
 
     #Creando esferas.
     c1.spheres = [
@@ -98,9 +99,14 @@ def glSphere(): #Método para crear las esferas.
         Sphere(V3(1.1, -1.6,-12), 0.3, white),
         Sphere(V3(2.9, -1.6,-12), 0.3, white),
 
+        #Creando esfera en el centro para probar la luz.
+        #Sphere(V3(0, 3,-12), 3, brown),
+
     ]
 
-    c1.light = Light(V3(0, 20, 10), 3, color(255, 255, 255)) #Creando la luz.
+    c1.light = Light(V3(0, 100, 0), 1, color(255, 255, 255)) #Creando la luz.
+
+    #c1.light = Light(V3(0, 0, 0), 1, color(255, 255, 255)) #Creando la luz.
 
 def glPlane(): #Método para crear el plano.
     c1.planes = [
@@ -143,6 +149,7 @@ def cast_ray(orig, direction): #Método para el rayo.
     # print(light_reflection)
     # print(reflection_intensity)
     # print(specular_intensity)
+
     return (diffuse + specular).toBytes()
     
     #return (diffuse).toBytes() #Regresando el color de la esfera.
@@ -178,7 +185,7 @@ def finish():
 
     for y in range(c1.height):
         for x in range(c1.width):
-            i = ((2 * (x + 0.5) / c1.width) - 1) * tana * aspectRatio
+            i = ((2 * (x + 0.5) / c1.width) - 1) * aspectRatio * tana
             j = (1 - ( 2 * (y + 0.5) / c1.height)) * tana
             origin = V3(0, 0, 0)
             direction = (V3(i, j, -1)).normalice()

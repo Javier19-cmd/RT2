@@ -16,7 +16,6 @@ class Sphere(object): #Clase para esferas.
         
 
         if d2 > self.radius**2: #Si la distancia al cuadrado es mayor al radio al cuadrado.
-            #print(d2, self.radius**2)
             return None
         #else: #Quitando el else de momento.
 
