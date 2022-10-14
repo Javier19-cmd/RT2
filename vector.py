@@ -17,7 +17,7 @@ class V3(object):
         return V3(
             self.x + other.x,
             self.y + other.y,
-            self.z + other.y
+            self.z + other.z
         )
 
     #Ovoerload de la resta.
@@ -26,7 +26,7 @@ class V3(object):
         return V3(
             self.x - other.x,
             self.y - other.y,
-            self.z - other.y
+            self.z - other.z
         )
 
     #Si el producto punto es 1, entonces los dos vectores tienen la misma dirección.

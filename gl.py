@@ -62,6 +62,7 @@ def glSphere(): #Método para crear las esferas.
 
     #Colores para los osos.
     brown = Material(diffuse=color(139, 69, 19), albedo=[1, 0], spec=5) #Marrón.
+    #brown = Material(diffuse=color(139, 69, 19)) #Marrón.
     white = Material(diffuse=color(255, 250, 250), albedo=[1, 0], spec=5) #Blanco.
 
     #Creando esferas.
@@ -100,11 +101,11 @@ def glSphere(): #Método para crear las esferas.
         Sphere(V3(2.9, -1.6,-12), 0.3, white),
 
         #Creando esfera en el centro para probar la luz.
-        #Sphere(V3(0, 3,-12), 3, brown),
+        #Sphere(V3(0, 0,-12), 3, brown),
 
     ]
 
-    c1.light = Light(V3(0, 100, 0), 1, color(255, 255, 255)) #Creando la luz.
+    c1.light = Light(V3(0, 3, 0), 1, color(255, 255, 255)) #Creando la luz.
 
     #c1.light = Light(V3(0, 0, 0), 1, color(255, 255, 255)) #Creando la luz.
 
@@ -134,6 +135,7 @@ def cast_ray(orig, direction): #Método para el rayo.
     # print(material.albedo[0])
 
     diffuse = material.diffuse * diffuse_intensity * material.albedo[0] #Calculando la reflexión difusa.
+    #diffuse = material.diffuse * diffuse_intensity
     #print("Diffuse: ", diffuse)
 
     #Componente especular.
@@ -151,6 +153,7 @@ def cast_ray(orig, direction): #Método para el rayo.
     # print(specular_intensity)
 
     return (diffuse + specular).toBytes()
+    #print(diffuse)
     
     #return (diffuse).toBytes() #Regresando el color de la esfera.
 
@@ -167,7 +170,6 @@ def scene_intersect(orig, direction):
 
     for o in c1.spheres: #Recorriendo el array de esferas.
         object_intersect = o.ray_intersect(orig, direction) #Llamando al método para el rayo.
-        
         if object_intersect: #Si hay intersección, entonces se regresa el material.
             if object_intersect.distance < zBuffer:
                 #Se actualiza el zBuffer y se regresa el material actualizado.

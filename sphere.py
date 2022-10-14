@@ -1,4 +1,5 @@
 from intersect import *
+from vector import *
 class Sphere(object): #Clase para esferas.
     def __init__(self, center, radius, material): #Recibe el centro y el radio.
         self.center = center
@@ -31,7 +32,9 @@ class Sphere(object): #Clase para esferas.
             return None
 
         impact = orig + (dir * t0) #Impacto. 
-        normal = (impact - self.center).normalice() #Normal. 
+        #print("Impacto: ", impact)
+        normal = (impact - self.center).normalice() #Normal.
+        #print("Normal: ", normal)
 
         #Regresando la distancia.
         return Intersect(
