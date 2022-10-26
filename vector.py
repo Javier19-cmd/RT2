@@ -48,7 +48,7 @@ class V3(object):
             )
 
         #Producto cruz entre dos vectores. Este funciona en vectores de tres dimensiones. Funciona solamente si hay dos vectores usando el *.
-        return (
+        return V3(
             self.y * other.z - self.z * other.y,
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x
