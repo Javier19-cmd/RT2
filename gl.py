@@ -55,20 +55,26 @@ def glSphere(): #Método para crear las esferas.
     #c1.colors.append(col) #Guardando el color de la esfera.
     
     #Crenado el material de las esferas que tienen los osos en medio.
-    al = Material(diffuse=color(128, 128, 128), albedo=[0.61, 0.25], spec=10) #Aluminio. 
+    al = Material(diffuse=color(230, 230, 230), albedo=[0.61, 0.25], spec=10) #Aluminio. 
     al2 = Material(diffuse=color(255, 0, 0), albedo=[0.61, 0.25], spec=10) #Aluminio.
     
     sil = Material(diffuse=color(0, 128, 0), albedo=[0.6, 0.3], spec=50) #Silicón.
 
     #Colores para los osos.
     brown = Material(diffuse=color(139, 69, 19), albedo=[1, 0], spec=5) #Marrón.
+    black = Material(diffuse=color(0, 0, 0), albedo=[1, 0], spec=5) #Negro.
     #brown = Material(diffuse=color(139, 69, 19)) #Marrón.
     white = Material(diffuse=color(255, 250, 250), albedo=[1, 0], spec=5) #Blanco.
 
     #Creando esferas.
     c1.spheres = [
+        
+        #Bocas.
+        #Sphere(V3(4, -3.5,-12), 0.3, white),
+
         #Cabezas
         Sphere(V3(-3, -4,-12), 1, brown), 
+        #Sphere(V3(-3, -4.5,-12), 0.5, black),
         Sphere(V3(2, -4,-12), 1, white),
 
         #Orejas
@@ -78,13 +84,10 @@ def glSphere(): #Método para crear las esferas.
         Sphere(V3(2.7, -5,-12), 0.3, white),
         Sphere(V3(1.4, -5,-12), 0.3, white),
 
-        # #Bocas.
-        # Sphere(V3(-4, -3.5,-12), 0.3, brown),
-        # Sphere(V3(4, -3.5,-12), 0.3, white),
 
         #Esferas de aluminio.
-        Sphere(V3(-3, -2.2,-12), 0.8, al),
-        Sphere(V3(2, -2.2,-12), 0.8, al2),
+        Sphere(V3(-3, -2.2,-12), 0.8, al2),
+        Sphere(V3(2, -2.2,-12), 0.8, al),
 
         #Bracitos.
         Sphere(V3(-3.9, -2.7,-12), 0.3, brown),
